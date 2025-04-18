@@ -1,42 +1,43 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Mini AI</title>
-    <style>
-      body { font-family: Arial; background: #111; color: #fff; text-align: center; padding: 50px; }
-      input, button { padding: 10px; font-size: 16px; margin: 10px; width: 300px; }
-      #output { margin-top: 30px; background: #222; padding: 20px; border-radius: 10px; }
-    </style>
-  </head>
-  <body>
-    <h1>🧠 GPT-2 AI in Browser</h1>
-    <input id="prompt" placeholder="Ask something..." />
-    <br>
-    <button onclick="runAI()">Run</button>
-    <div id="output">Loading model...</div>
+<head>
+  <title>DeepSeek AI Chat</title>
+</head>
+<body>
+  <h2>Ask AI</h2>
+  <textarea id="userInput" rows="4" cols="50" placeholder="Ask something..."></textarea><br>
+  <button onclick="askDeepSeek()">Send</button>
+  <h3>Response:</h3>
+  <pre id="response"></pre>
 
-    <script type="module">
-      import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
+  <script>
+    async function askDeepSeek() {
+      const prompt = document.getElementById("userInput").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerText = "Thinking...";
 
-      let generator;
-      const output = document.getElementById("output");
+      const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 38e7dd10f3e1f55e23dd97492f3987c3e71b5b43f5c31ec22e87b5b85d33f35a"
+        },
+        body: JSON.stringify({
+          model: "deepseek-chat",
+          messages: [
+            { role: "system", content: "You are a helpful assistant." },
+            { role: "user", content: prompt }
+          ]
+        })
+      });
 
-      async function loadModel() {
-        output.innerText = "🔄 Loading GPT-2 model (please wait 10–20 sec)...";
-        generator = await pipeline('text-generation', 'Xenova/gpt2');
-        output.innerText = "✅ Model loaded! Enter your prompt.";
+      const data = await response.json();
+      if (data && data.choices) {
+        responseDiv.innerText = data.choices[0].message.content;
+      } else {
+        responseDiv.innerText = "No response or error!";
       }
-
-      async function runAI() {
-        const prompt = document.getElementById("prompt").value;
-        if (!prompt || !generator) return;
-
-        output.innerText = "🤖 Thinking...";
-        const result = await generator(prompt, { max_new_tokens: 60 });
-        output.innerText = result[0].generated_text;
-      }
-
-      loadModel();
-    </script>
-  </body>
+    }
+  </script>
+</body>
 </html>
