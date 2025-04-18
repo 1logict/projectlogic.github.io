@@ -3,50 +3,47 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PromptPilot AI</title>
+  <title>PromptPilot AI (No API)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #111;
-      color: #eee;
+      background: #121212;
+      color: #fff;
       text-align: center;
       padding: 2rem;
     }
-    #output {
-      white-space: pre-wrap;
-      margin-top: 1rem;
-      border: 1px solid #444;
-      padding: 1rem;
-      background: #222;
-    }
     input, button {
-      padding: 0.5rem 1rem;
+      padding: 0.5rem;
       font-size: 1rem;
-      margin-top: 1rem;
-      border: none;
-      border-radius: 8px;
-    }
-    input {
+      margin: 0.5rem;
       width: 60%;
+      border-radius: 6px;
     }
     button {
-      background-color: #007bff;
+      background: #00bcd4;
       color: white;
       cursor: pointer;
+      border: none;
     }
     button:hover {
-      background-color: #0056b3;
+      background: #008c9e;
+    }
+    #output {
+      margin-top: 1rem;
+      background: #1f1f1f;
+      padding: 1rem;
+      border-radius: 6px;
+      white-space: pre-wrap;
     }
   </style>
 </head>
 <body>
-  <h1>🧠 PromptPilot AI (Browser-Only)</h1>
-  <p>Ask the AI anything!</p>
-  <input type="text" id="prompt" placeholder="e.g. Write a quote about technology..." />
+  <h1>🧠 PromptPilot AI (Free & Offline!)</h1>
+  <p>Powered by GPT-2 running directly in your browser. No API key. No cost.</p>
+  <input type="text" id="prompt" placeholder="Ask anything..." />
   <br />
-  <button onclick="runAI()">Ask AI</button>
-
-  <div id="output">AI response will appear here...</div>
+  <button onclick="runAI()">Run AI</button>
+  <div id="output">Loading model, please wait...</div>
 
   <script type="module">
     import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
@@ -54,20 +51,36 @@
     let generator;
     const outputDiv = document.getElementById('output');
 
-    async function runAI() {
-      const prompt = document.getElementById('prompt').value;
-      outputDiv.innerText = "Thinking...";
+    async function loadModel() {
+      outputDiv.innerText = "🔄 Loading GPT-2 model in browser...";
+      generator = await pipeline('text-generation', 'Xenova/gpt2');
+      outputDiv.innerText = "✅ Model loaded! Ask something above.";
+    }
 
-      if (!generator) {
-        generator = await pipeline('text-generation', 'Xenova/gpt2');
+    async function runAI() {
+      const prompt = document.getElementById('prompt').value.trim();
+      if (!prompt) {
+        outputDiv.innerText = "⚠️ Please enter a prompt first.";
+        return;
       }
 
-      const result = await generator(prompt, {
-        max_new_tokens: 50
-      });
+      if (!generator) {
+        outputDiv.innerText = "❗ Model not loaded yet. Wait a moment...";
+        return;
+      }
 
-      outputDiv.innerText = result[0].generated_text;
+      outputDiv.innerText = "🤖 Thinking...";
+      try {
+        const result = await generator(prompt, {
+          max_new_tokens: 60
+        });
+        outputDiv.innerText = result[0].generated_text;
+      } catch (err) {
+        outputDiv.innerText = "❌ Error running AI: " + err.message;
+      }
     }
+
+    loadModel(); // start loading the model when page loads
   </script>
 </body>
 </html>
