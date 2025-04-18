@@ -3,15 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Unleash AI | ProjectLogic</title>
-  <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <title>PromptPilot AI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #eee;
+      text-align: center;
+      padding: 2rem;
+    }
+    #output {
+      white-space: pre-wrap;
+      margin-top: 1rem;
+      border: 1px solid #444;
+      padding: 1rem;
+      background: #222;
+    }
+    input, button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+      border: none;
+      border-radius: 8px;
+    }
+    input {
+      width: 60%;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="glitch" data-text="Unleash AI">Unleash AI</h1>
-    <p class="tagline">AI that builds with AI. Personalized. Powerful. Futuristic.</p>
-    <a class="btn" href="#start">Explore Now</a>
-  </div>
+  <h1>🧠 PromptPilot AI (Browser-Only)</h1>
+  <p>Ask the AI anything!</p>
+  <input type="text" id="prompt" placeholder="e.g. Write a quote about technology..." />
+  <br />
+  <button onclick="runAI()">Ask AI</button>
+
+  <div id="output">AI response will appear here...</div>
+
+  <script type="module">
+    import { pipeline } from 'https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0';
+
+    let generator;
+    const outputDiv = document.getElementById('output');
+
+    async function runAI() {
+      const prompt = document.getElementById('prompt').value;
+      outputDiv.innerText = "Thinking...";
+
+      if (!generator) {
+        generator = await pipeline('text-generation', 'Xenova/gpt2');
+      }
+
+      const result = await generator(prompt, {
+        max_new_tokens: 50
+      });
+
+      outputDiv.innerText = result[0].generated_text;
+    }
+  </script>
 </body>
 </html>
