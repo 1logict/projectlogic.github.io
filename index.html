@@ -1,43 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>DeepSeek AI Chat</title>
-</head>
-<body>
-  <h2>Ask AI</h2>
-  <textarea id="userInput" rows="4" cols="50" placeholder="Ask something..."></textarea><br>
-  <button onclick="askDeepSeek()">Send</button>
-  <h3>Response:</h3>
-  <pre id="response"></pre>
+<script>
+  async function askDeepSeek() {
+    const prompt = document.getElementById("userInput").value;
+    const responseDiv = document.getElementById("response");
+    responseDiv.innerText = "Thinking...";
 
-  <script>
-    async function askDeepSeek() {
-      const prompt = document.getElementById("userInput").value;
-      const responseDiv = document.getElementById("response");
-      responseDiv.innerText = "Thinking...";
+    const res = await fetch("https://wild-disk-d5fd.codingprogramming333.workers.dev", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt })
+    });
 
-      const response = await fetch("https://api.deepseek.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer 38e7dd10f3e1f55e23dd97492f3987c3e71b5b43f5c31ec22e87b5b85d33f35a"
-        },
-        body: JSON.stringify({
-          model: "deepseek-chat",
-          messages: [
-            { role: "system", content: "You are a helpful assistant." },
-            { role: "user", content: prompt }
-          ]
-        })
-      });
-
-      const data = await response.json();
-      if (data && data.choices) {
-        responseDiv.innerText = data.choices[0].message.content;
-      } else {
-        responseDiv.innerText = "No response or error!";
-      }
+    const data = await res.json();
+    if (data.choices) {
+      responseDiv.innerText = data.choices[0].message.content;
+    } else {
+      responseDiv.innerText = "No response or error!";
     }
-  </script>
-</body>
-</html>
+  }
+</script>
