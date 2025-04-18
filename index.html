@@ -1,20 +1,62 @@
-<script>
-  async function askDeepSeek() {
-    const prompt = document.getElementById("userInput").value;
-    const responseDiv = document.getElementById("response");
-    responseDiv.innerText = "Thinking...";
-
-    const res = await fetch("https://wild-disk-d5fd.codingprogramming333.workers.dev", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt })
-    });
-
-    const data = await res.json();
-    if (data.choices) {
-      responseDiv.innerText = data.choices[0].message.content;
-    } else {
-      responseDiv.innerText = "No response or error!";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Assistant</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 40px;
+      background-color: #f4f4f4;
     }
-  }
-</script>
+    textarea, button {
+      width: 100%;
+      font-size: 16px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+    pre {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ask the AI Assistant</h1>
+  <textarea id="userInput" rows="5" placeholder="Type your question here..."></textarea>
+  <button onclick="askAI()">Submit</button>
+  <h3>AI Response:</h3>
+  <pre id="response">Waiting for your question...</pre>
+
+  <script>
+    async function askAI() {
+      const prompt = document.getElementById("userInput").value;
+      const responseDiv = document.getElementById("response");
+      responseDiv.innerText = "Thinking...";
+
+      try {
+        const res = await fetch("https://wild-disk-d5fd.codingprogramming333.workers.dev/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ prompt })
+        });
+
+        const data = await res.json();
+        if (data && data.reply) {
+          responseDiv.innerText = data.reply;
+        } else {
+          responseDiv.innerText = "No valid response received.";
+        }
+      } catch (err) {
+        responseDiv.innerText = "Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
+
