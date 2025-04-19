@@ -1,131 +1,86 @@
-const prompts = {
-  website: [
+const tasks = {
+  "Website Development": [
+    {
+      ai: "Framer AI",
+      description: "Generate a modern responsive website layout with animations and interactivity.",
+      prompt: "Design a landing page for a tech startup with hero section, features, testimonials, and contact form using Framer."
+    },
+    {
+      ai: "GPT-4o",
+      description: "Generate the HTML/CSS/JS code for a full website structure.",
+      prompt: "Write the complete code for a responsive portfolio website including navbar, about, projects, and contact section."
+    }
+  ],
+  "Academic Research": [
     {
       ai: "ChatGPT",
-      task: "Build a responsive website layout",
-      prompt:
-        "Create a responsive website structure including header, hero, services, testimonials, and footer. Use semantic HTML and Tailwind CSS.",
+      description: "Outline and write a research paper with structure and citations.",
+      prompt: "Create a research paper on 'AI in Medical Diagnostics' with intro, methodology, findings, and references."
     },
     {
-      ai: "Gemini",
-      task: "Suggest modern design layout",
-      prompt:
-        "Generate UI/UX design ideas for a modern portfolio site. Include layout ideas, font pairing, and a soft color palette.",
-    },
-    {
-      ai: "Claude",
-      task: "Add animation and interactivity",
-      prompt:
-        "Recommend animation libraries to enhance user experience on a landing page. Include example usage.",
-    },
+      ai: "Scite Assistant",
+      description: "Suggest verified sources and summarize them with citations.",
+      prompt: "Find 5 recent peer-reviewed studies on climate change adaptation and summarize their findings with citations."
+    }
   ],
-  research: [
+  "Study Assistant": [
+    {
+      ai: "Notion AI",
+      description: "Create a study plan and organize notes for productivity.",
+      prompt: "Generate a weekly CBSE Class 12 study planner with daily goals and revision sections."
+    },
+    {
+      ai: "GPT-4o",
+      description: "Generate flashcards and summaries for subjects.",
+      prompt: "Make flashcards for Class 12 Physics – Chapter: Electromagnetic Induction with key formulas and laws."
+    }
+  ],
+  "Creative Image/Video": [
+    {
+      ai: "DALL·E",
+      description: "Generate high-quality AI images from description.",
+      prompt: "Create a futuristic sci-fi city with neon lights and flying cars at night."
+    },
+    {
+      ai: "Runway AI",
+      description: "AI-based video generation and editing tool for creators.",
+      prompt: "Make a cinematic video intro with text animations and ambient music for a tech YouTube channel."
+    }
+  ],
+  "Business Startup": [
     {
       ai: "ChatGPT",
-      task: "Create research paper structure",
-      prompt:
-        "Outline a research paper on the impact of quantum computing on cybersecurity. Include sections and brief descriptions.",
+      description: "Generate a startup idea pitch and business model.",
+      prompt: "Create a startup pitch for an AI-powered time tracker app for freelancers with key features and value prop."
     },
     {
-      ai: "Gemini",
-      task: "Find sources for review",
-      prompt:
-        "Suggest credible sources and journals for a literature review on climate change models.",
-    },
-    {
-      ai: "Claude",
-      task: "Guide citation formats",
-      prompt:
-        "Provide citation styles and formatting rules for IEEE and APA standards.",
-    },
-  ],
-  mobile: [
-    {
-      ai: "ChatGPT",
-      task: "Build a mobile app UI with Flutter",
-      prompt:
-        "Generate a basic Flutter app layout for a weather application. Include widgets used and folder structure.",
-    },
-    {
-      ai: "Gemini",
-      task: "Design minimal UI",
-      prompt:
-        "Suggest UI components for a minimalist mobile to-do list app. Provide color themes and font recommendations.",
-    },
-    {
-      ai: "Claude",
-      task: "Compare native vs hybrid apps",
-      prompt:
-        "Explain the difference between native and hybrid mobile apps with pros/cons and real-world examples.",
-    },
-  ],
-  startup: [
-    {
-      ai: "ChatGPT",
-      task: "Generate a startup pitch",
-      prompt:
-        "Create a 60-second startup pitch for an AI-powered study planner app aimed at students.",
-    },
-    {
-      ai: "Gemini",
-      task: "Make business model canvas",
-      prompt:
-        "Generate a business model canvas for a new tech education platform focused on gamification.",
-    },
-    {
-      ai: "Claude",
-      task: "Design investor pitch deck",
-      prompt:
-        "List essential slides for a startup investor pitch deck with brief explanations for each.",
-    },
-  ],
-  study: [
-    {
-      ai: "ChatGPT",
-      task: "Make a weekly study planner",
-      prompt:
-        "Build a weekly study schedule for a CBSE Class 12 student preparing for Boards and Digital SAT.",
-    },
-    {
-      ai: "Gemini",
-      task: "Recommend AI study tools",
-      prompt:
-        "Suggest AI tools that can help in summarizing textbooks, organizing notes, and generating flashcards.",
-    },
-    {
-      ai: "Claude",
-      task: "Daily productivity challenge",
-      prompt:
-        "Create a 30-day productivity challenge with daily study tasks, focus tips, and motivation boosters.",
-    },
-  ],
+      ai: "Gamma AI",
+      description: "Design pitch decks and beautiful presentations from prompts.",
+      prompt: "Design a 10-slide investor deck for a mobile-first finance budgeting app."
+    }
+  ]
 };
 
 const taskDropdown = document.getElementById("task");
 const promptContainer = document.getElementById("promptCards");
 
-// Add the new task options dynamically
-const newTasks = [
-  { value: "mobile", label: "Mobile App" },
-  { value: "startup", label: "Startup Pitch" },
-  { value: "study", label: "Study Assistant" },
-];
-
-newTasks.forEach((task) => {
+// Populate dropdown
+Object.keys(tasks).forEach(task => {
   const option = document.createElement("option");
-  option.value = task.value;
-  option.textContent = task.label;
+  option.value = task;
+  option.textContent = task;
   taskDropdown.appendChild(option);
 });
 
 function renderPrompts(taskType) {
   promptContainer.innerHTML = "";
-  prompts[taskType].forEach((item) => {
+  tasks[taskType].forEach(item => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
-      <h2>Task: ${item.task}</h2>
-      <h3>AI Engine: ${item.ai}</h3>
+      <h2>Task: ${taskType}</h2>
+      <h3>Best AI/App: ${item.ai}</h3>
+      <p class="description">${item.description}</p>
       <p>${item.prompt}</p>
       <button class="copy-button">Copy Prompt</button>
     `;
@@ -139,10 +94,8 @@ function renderPrompts(taskType) {
   });
 }
 
-// Initial render
 renderPrompts(taskDropdown.value);
 
-// Update prompts when dropdown changes
 taskDropdown.addEventListener("change", (e) => {
   renderPrompts(e.target.value);
 });
