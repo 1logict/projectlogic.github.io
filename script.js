@@ -2,61 +2,71 @@ const tasks = {
   "Website Development": [
     {
       ai: "Framer AI",
-      description: "Generate a modern responsive website layout with animations and interactivity.",
-      prompt: "Design a landing page for a tech startup with hero section, features, testimonials, and contact form using Framer."
+      task: "Generate responsive website layout with animations and interactivity.",
+      description: "Use Framer AI to quickly design layouts with drag-and-drop features.",
+      prompt: "Create a landing page with hero section, features, and testimonials. Ask Framer AI to adjust layout based on content and animations."
     },
     {
       ai: "GPT-4o",
-      description: "Generate the HTML/CSS/JS code for a full website structure.",
-      prompt: "Write the complete code for a responsive portfolio website including navbar, about, projects, and contact section."
+      task: "Generate HTML/CSS/JS code for website structure.",
+      description: "Use GPT-4o to create responsive website templates with customizable code.",
+      prompt: "Generate a full website with navbar, projects, and contact section. Customize the color scheme and typography."
     }
   ],
   "Academic Research": [
     {
       ai: "ChatGPT",
-      description: "Outline and write a research paper with structure and citations.",
-      prompt: "Create a research paper on 'AI in Medical Diagnostics' with intro, methodology, findings, and references."
+      task: "Write a research paper with structured sections.",
+      description: "ChatGPT helps in generating well-structured papers with citations.",
+      prompt: "Create a research paper on AI in medical diagnostics, starting with an introduction and concluding with findings."
     },
     {
       ai: "Scite Assistant",
-      description: "Suggest verified sources and summarize them with citations.",
-      prompt: "Find 5 recent peer-reviewed studies on climate change adaptation and summarize their findings with citations."
+      task: "Find and summarize peer-reviewed research papers.",
+      description: "Use Scite Assistant for quick source identification and summaries.",
+      prompt: "Search for recent studies on climate change adaptation and summarize key findings with citations."
     }
   ],
   "Study Assistant": [
     {
       ai: "Notion AI",
-      description: "Create a study plan and organize notes for productivity.",
-      prompt: "Generate a weekly CBSE Class 12 study planner with daily goals and revision sections."
+      task: "Organize study plan and notes.",
+      description: "Notion AI helps organize tasks and study materials for optimal productivity.",
+      prompt: "Generate a weekly CBSE Class 12 study planner with daily subjects and revision time."
     },
     {
       ai: "GPT-4o",
-      description: "Generate flashcards and summaries for subjects.",
-      prompt: "Make flashcards for Class 12 Physics – Chapter: Electromagnetic Induction with key formulas and laws."
+      task: "Generate flashcards and concise summaries for subjects.",
+      description: "Use GPT-4o to make quick study materials like flashcards.",
+      prompt: "Create flashcards for Physics Class 12 – Chapter on Electromagnetic Induction. Focus on key formulas and principles."
     }
   ],
   "Creative Image/Video": [
     {
       ai: "DALL·E",
-      description: "Generate high-quality AI images from description.",
-      prompt: "Create a futuristic sci-fi city with neon lights and flying cars at night."
+      task: "Generate creative images from descriptions.",
+      description: "Use DALL·E for high-quality image generation based on creative prompts.",
+      prompt: "Create a futuristic cityscape with neon lights and flying vehicles at night."
     },
     {
       ai: "Runway AI",
-      description: "AI-based video generation and editing tool for creators.",
-      prompt: "Make a cinematic video intro with text animations and ambient music for a tech YouTube channel."
+      task: "Generate and edit cinematic videos.",
+      description: "Use Runway AI for video intros with animations and audio effects.",
+      prompt: "Create a cinematic intro with text animations and a techno soundtrack for a tech YouTube channel."
     }
   ],
   "Business Startup": [
     {
       ai: "ChatGPT",
-      description: "Generate a startup idea pitch and business model.",
-      prompt: "Create a startup pitch for an AI-powered time tracker app for freelancers with key features and value prop."
+      task: "Generate a business idea and model.",
+      description: "ChatGPT can generate startup pitches and business plans based on prompts.",
+      prompt: "Create a pitch for a time-tracking app designed for freelancers. Include unique features and business model."
     },
     {
       ai: "Gamma AI",
-      description: "Design pitch decks and beautiful presentations from prompts.",
-      prompt: "Design a 10-slide investor deck for a mobile-first finance budgeting app."
+      task: "Design pitch decks for presentations.",
+      description: "Gamma AI can generate polished pitch decks with a professional design.",
+      prompt: "Design a 10-slide investor deck for a mobile app that helps people budget and manage finances."
     }
   ]
 };
@@ -78,10 +88,10 @@ function renderPrompts(taskType) {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
-      <h2>Task: ${taskType}</h2>
+      <h2>Task: ${item.task}</h2>
       <h3>Best AI/App: ${item.ai}</h3>
       <p class="description">${item.description}</p>
-      <p>${item.prompt}</p>
+      <p><strong>How to use:</strong> ${item.prompt}</p>
       <button class="copy-button">Copy Prompt</button>
     `;
 
