@@ -2,42 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PromptPilot - Unleash AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project Logic</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>🚀 PromptPilot</h1>
-    <p>Unleash the Power of AI with AI</p>
-  </header>
+  <div class="container">
+    <h1>Project Logic</h1>
+    <p>Your AI companion from zero to sky.</p>
+    
+    <input type="text" id="userGoal" placeholder="What do you want to build?" />
+    <button onclick="generatePrompts()">Generate Prompts</button>
 
-  <main>
-    <section class="prompt-section">
-      <h2>🎯 What do you want to do today?</h2>
-      <select id="task">
-        <option value="coding">Build a Coding Project</option>
-        <option value="design">Create a Design</option>
-        <option value="learn">Study a Topic</option>
-        <option value="startup">Start a Business Idea</option>
-      </select>
-      <input type="text" id="userGoal" placeholder="E.g. I want to build a portfolio website" />
-      <button onclick="generatePrompts()">Generate AI Prompts</button>
+    <div class="output-box" id="output"></div>
 
-
-      <div class="output-box" id="output"></div>
-    </section>
-
-    <section class="workshop">
-      <h2>🧠 AI Workshop – Stored Outputs</h2>
-      <ul id="history"></ul>
-    </section>
-  </main>
-
-  <footer>
-    <p>Made by Team PromptPilot @ CodeDay</p>
-  </footer>
-
+    <h2>Workshop History</h2>
+    <ul id="history"></ul>
+  </div>
+  
   <script src="script.js"></script>
 </body>
 </html>
