@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Prompt Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Project Logic</h1>
+
+    <div class="grid">
+      <!-- Left Section -->
+      <div class="left">
+        <label for="task" class="label">Select a task</label>
+        <select id="task" class="dropdown">
+          <option value="website">Website Making</option>
+          <option value="research">Research Paper</option>
+        </select>
+      </div>
+
+      <!-- Right Section -->
+      <div class="right" id="promptCards"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
