@@ -1,97 +1,132 @@
-
-const tasks = {
-  "Website Development": [
-    {
-      ai: "Framer AI",
-      task: "Generate responsive website layout with animations and interactivity.",
-      description: "Use Framer AI to quickly design layouts with drag-and-drop features.",
-      prompt: "Create a landing page with hero section, features, and testimonials. Ask Framer AI to adjust layout based on content and animations."
-    },
-    {
-      ai: "GPT-4o",
-      task: "Generate HTML/CSS/JS code for website structure.",
-      description: "Use GPT-4o to create responsive website templates with customizable code.",
-      prompt: "Generate a full website with navbar, projects, and contact section. Customize the color scheme and typography."
-    }
-  ],
-  "Academic Research": [
+const prompts = {
+  website: [
     {
       ai: "ChatGPT",
-      task: "Write a research paper with structured sections.",
-      description: "ChatGPT helps in generating well-structured papers with citations.",
-      prompt: "Create a research paper on AI in medical diagnostics, starting with an introduction and concluding with findings."
+      task: "Build a responsive website layout",
+      prompt:
+        "Create a responsive website structure including header, hero, services, testimonials, and footer. Use semantic HTML and Tailwind CSS.",
     },
     {
-      ai: "Scite Assistant",
-      task: "Find and summarize peer-reviewed research papers.",
-      description: "Use Scite Assistant for quick source identification and summaries.",
-      prompt: "Search for recent studies on climate change adaptation and summarize key findings with citations."
-    }
-  ],
-  "Study Assistant": [
-    {
-      ai: "Notion AI",
-      task: "Organize study plan and notes.",
-      description: "Notion AI helps organize tasks and study materials for optimal productivity.",
-      prompt: "Generate a weekly CBSE Class 12 study planner with daily subjects and revision time."
+      ai: "Gemini",
+      task: "Suggest modern design layout",
+      prompt:
+        "Generate UI/UX design ideas for a modern portfolio site. Include layout ideas, font pairing, and a soft color palette.",
     },
     {
-      ai: "GPT-4o",
-      task: "Generate flashcards and concise summaries for subjects.",
-      description: "Use GPT-4o to make quick study materials like flashcards.",
-      prompt: "Create flashcards for Physics Class 12 – Chapter on Electromagnetic Induction. Focus on key formulas and principles."
-    }
-  ],
-  "Creative Image/Video": [
-    {
-      ai: "DALL·E",
-      task: "Generate creative images from descriptions.",
-      description: "Use DALL·E for high-quality image generation based on creative prompts.",
-      prompt: "Create a futuristic cityscape with neon lights and flying vehicles at night."
+      ai: "Claude",
+      task: "Add animation and interactivity",
+      prompt:
+        "Recommend animation libraries to enhance user experience on a landing page. Include example usage.",
     },
-    {
-      ai: "Runway AI",
-      task: "Generate and edit cinematic videos.",
-      description: "Use Runway AI for video intros with animations and audio effects.",
-      prompt: "Create a cinematic intro with text animations and a techno soundtrack for a tech YouTube channel."
-    }
   ],
-  "Business Startup": [
+  research: [
     {
       ai: "ChatGPT",
-      task: "Generate a business idea and model.",
-      description: "ChatGPT can generate startup pitches and business plans based on prompts.",
-      prompt: "Create a pitch for a time-tracking app designed for freelancers. Include unique features and business model."
+      task: "Create research paper structure",
+      prompt:
+        "Outline a research paper on the impact of quantum computing on cybersecurity. Include sections and brief descriptions.",
     },
     {
-      ai: "Gamma AI",
-      task: "Design pitch decks for presentations.",
-      description: "Gamma AI can generate polished pitch decks with a professional design.",
-      prompt: "Design a 10-slide investor deck for a mobile app that helps people budget and manage finances."
-    }
-  ]
+      ai: "Gemini",
+      task: "Find sources for review",
+      prompt:
+        "Suggest credible sources and journals for a literature review on climate change models.",
+    },
+    {
+      ai: "Claude",
+      task: "Guide citation formats",
+      prompt:
+        "Provide citation styles and formatting rules for IEEE and APA standards.",
+    },
+  ],
+  mobile: [
+    {
+      ai: "ChatGPT",
+      task: "Build a mobile app UI with Flutter",
+      prompt:
+        "Generate a basic Flutter app layout for a weather application. Include widgets used and folder structure.",
+    },
+    {
+      ai: "Gemini",
+      task: "Design minimal UI",
+      prompt:
+        "Suggest UI components for a minimalist mobile to-do list app. Provide color themes and font recommendations.",
+    },
+    {
+      ai: "Claude",
+      task: "Compare native vs hybrid apps",
+      prompt:
+        "Explain the difference between native and hybrid mobile apps with pros/cons and real-world examples.",
+    },
+  ],
+  startup: [
+    {
+      ai: "ChatGPT",
+      task: "Generate a startup pitch",
+      prompt:
+        "Create a 60-second startup pitch for an AI-powered study planner app aimed at students.",
+    },
+    {
+      ai: "Gemini",
+      task: "Make business model canvas",
+      prompt:
+        "Generate a business model canvas for a new tech education platform focused on gamification.",
+    },
+    {
+      ai: "Claude",
+      task: "Design investor pitch deck",
+      prompt:
+        "List essential slides for a startup investor pitch deck with brief explanations for each.",
+    },
+  ],
+  study: [
+    {
+      ai: "ChatGPT",
+      task: "Make a weekly study planner",
+      prompt:
+        "Build a weekly study schedule for a CBSE Class 12 student preparing for Boards and Digital SAT.",
+    },
+    {
+      ai: "Gemini",
+      task: "Recommend AI study tools",
+      prompt:
+        "Suggest AI tools that can help in summarizing textbooks, organizing notes, and generating flashcards.",
+    },
+    {
+      ai: "Claude",
+      task: "Daily productivity challenge",
+      prompt:
+        "Create a 30-day productivity challenge with daily study tasks, focus tips, and motivation boosters.",
+    },
+  ],
 };
 
 const taskDropdown = document.getElementById("task");
 const promptContainer = document.getElementById("promptCards");
 
-Object.keys(tasks).forEach(task => {
+// Add the new task options dynamically
+const newTasks = [
+  { value: "mobile", label: "Mobile App" },
+  { value: "startup", label: "Startup Pitch" },
+  { value: "study", label: "Study Assistant" },
+];
+
+newTasks.forEach((task) => {
   const option = document.createElement("option");
-  option.value = task;
-  option.textContent = task;
+  option.value = task.value;
+  option.textContent = task.label;
   taskDropdown.appendChild(option);
 });
 
 function renderPrompts(taskType) {
   promptContainer.innerHTML = "";
-  tasks[taskType].forEach(item => {
+  prompts[taskType].forEach((item) => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
       <h2>Task: ${item.task}</h2>
-      <h3>Best AI/App: ${item.ai}</h3>
-      <p class="description">${item.description}</p>
-      <p><strong>Prompt:</strong> ${item.prompt}</p>
+      <h3>AI Engine: ${item.ai}</h3>
+      <p>${item.prompt}</p>
       <button class="copy-button">Copy Prompt</button>
     `;
 
@@ -104,8 +139,10 @@ function renderPrompts(taskType) {
   });
 }
 
+// Initial render
 renderPrompts(taskDropdown.value);
 
+// Update prompts when dropdown changes
 taskDropdown.addEventListener("change", (e) => {
   renderPrompts(e.target.value);
 });
