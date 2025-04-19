@@ -1,52 +1,31 @@
-function generatePrompt() {
-  const task = document.getElementById("task").value;
-  let response = "";
-
-  switch (task) {
-    case "coding":
-      response = `💻 *AI Response:*
-Sure! Here's a beginner-friendly JavaScript project:
-- **Project:** To-Do List App
-- **Features:** Add/delete tasks, mark as complete, store in localStorage
-- **Tech Stack:** HTML, CSS, Vanilla JS
-- **Tip:** Start with basic layout, then move to task logic.`;
-      break;
-
-    case "design":
-      response = `🎨 *AI Response:*
-Let’s design a landing page for an AI startup:
-- **Look:** Futuristic, neon glow, dark mode
-- **Sections:** Header, Mission, Product Showcase, Testimonials, CTA
-- **Tools:** Figma, Framer, HTML/CSS
-- **Font Suggestions:** Orbitron, Poppins`;
-      break;
-
-    case "learn":
-      response = `📚 *AI Response:*
-Here's a learning roadmap to master Python:
-1. **Basics:** Syntax, variables, loops
-2. **Projects:** Calculator, Quiz App
-3. **Next:** OOP, file handling
-4. **Advanced:** APIs, Flask, Data Science (Pandas, NumPy)
-Time: ~3 months with daily 1 hr study.`;
-      break;
-
-    case "startup":
-      response = `🚀 *AI Response:*
-AI-powered Student Productivity Tool:
-- **Name:** FocusBoost.ai
-- **Target:** Students & learners
-- **Problem Solved:** Distractions, disorganized notes
-- **Core Features:** Smart planner, AI-generated summaries, motivation tracker
-- **Revenue:** Freemium model with premium features`;
-      break;
+function generatePrompts() {
+  const userGoal = document.getElementById("userGoal").value.trim();
+  if (!userGoal) {
+    alert("Please enter a goal or task.");
+    return;
   }
 
-  const outputBox = document.getElementById("output");
-  outputBox.innerHTML = response;
+  const codingPrompt = `💻 *Coding AI Prompt:*
+Write the full HTML, CSS (and JavaScript if needed) for: "${userGoal}". Ensure it's responsive and beginner-friendly.`;
 
+  const designPrompt = `🎨 *Design AI Prompt:*
+Create a UI/UX design (or wireframe) for: "${userGoal}". Suggest color palettes, font pairs, and layout ideas.`;
+
+  const contentPrompt = `📝 *Content AI Prompt:*
+Write engaging content or copy for: "${userGoal}". Include headings, about section, and calls to action.`;
+
+  const output = `
+    <h3>Here are your AI prompts:</h3>
+    <div class="prompt-block">${codingPrompt}</div>
+    <div class="prompt-block">${designPrompt}</div>
+    <div class="prompt-block">${contentPrompt}</div>
+  `;
+
+  document.getElementById("output").innerHTML = output;
+
+  // Store in Workshop
   const history = document.getElementById("history");
   const newItem = document.createElement("li");
-  newItem.innerHTML = response;
+  newItem.innerHTML = `<strong>${userGoal}</strong><br>${codingPrompt}<br>${designPrompt}<br>${contentPrompt}`;
   history.appendChild(newItem);
 }

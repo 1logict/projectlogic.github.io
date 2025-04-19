@@ -21,7 +21,9 @@
         <option value="learn">Study a Topic</option>
         <option value="startup">Start a Business Idea</option>
       </select>
-      <button onclick="generatePrompt()">Generate Prompt</button>
+      <input type="text" id="userGoal" placeholder="E.g. I want to build a portfolio website" />
+      <button onclick="generatePrompts()">Generate AI Prompts</button>
+
 
       <div class="output-box" id="output"></div>
     </section>
