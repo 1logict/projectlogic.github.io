@@ -1,3 +1,4 @@
+
 const tasks = {
   "Website Development": [
     {
@@ -74,7 +75,6 @@ const tasks = {
 const taskDropdown = document.getElementById("task");
 const promptContainer = document.getElementById("promptCards");
 
-// Populate dropdown
 Object.keys(tasks).forEach(task => {
   const option = document.createElement("option");
   option.value = task;
@@ -91,7 +91,7 @@ function renderPrompts(taskType) {
       <h2>Task: ${item.task}</h2>
       <h3>Best AI/App: ${item.ai}</h3>
       <p class="description">${item.description}</p>
-      <p><strong>How to use:</strong> ${item.prompt}</p>
+      <p><strong>Prompt:</strong> ${item.prompt}</p>
       <button class="copy-button">Copy Prompt</button>
     `;
 
