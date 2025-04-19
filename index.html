@@ -38,28 +38,32 @@ export default function Component() {
 
   return (
     <div className="min-h-screen bg-white text-black font-sans p-10">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold mb-8 text-center tracking-wide">Project Logic</h1>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Left box with dropdown */}
+        <div>
+          <h1 className="text-5xl font-bold mb-8 text-center tracking-wide">Project Logic</h1>
 
-        <div className="mb-6">
-          <label htmlFor="task" className="block mb-2 text-lg">Select a task</label>
-          <select
-            id="task"
-            className="w-full bg-black text-white rounded-xl p-3 focus:outline-none text-lg"
-            value={selectedTask}
-            onChange={(e) => setSelectedTask(e.target.value)}
-          >
-            <option value="website">Website Making</option>
-            <option value="research">Research Paper</option>
-          </select>
+          <div className="mb-6">
+            <label htmlFor="task" className="block mb-2 text-lg font-semibold">Select a task</label>
+            <select
+              id="task"
+              className="w-full bg-black text-white rounded-xl p-3 focus:outline-none text-lg"
+              value={selectedTask}
+              onChange={(e) => setSelectedTask(e.target.value)}
+            >
+              <option value="website">Website Making</option>
+              <option value="research">Research Paper</option>
+            </select>
+          </div>
         </div>
 
-        <div className="grid gap-6">
+        {/* Right box with prompts */}
+        <div className="space-y-6">
           {prompts[selectedTask].map((item, index) => (
             <Card key={index} className="bg-black text-white shadow-xl rounded-2xl">
               <CardContent className="p-6">
-                <h2 className="text-2xl font-semibold mb-2">Task: {selectedTask}</h2>
-                <h3 className="text-lg font-medium mb-2">Use in: {item.ai}</h3>
+                <h2 className="text-xl font-semibold mb-1">Task: {selectedTask}</h2>
+                <h3 className="text-lg font-medium mb-1">AI Engine: {item.ai}</h3>
                 <p className="text-base whitespace-pre-wrap">{item.prompt}</p>
               </CardContent>
             </Card>
